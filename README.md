@@ -48,7 +48,6 @@ An interpreted language with a javascript-like syntax and some overlapping featu
 
 - Logical `!`
 - Negation `-`
-- Post/pre increment/decrement `++`, `--`
 
 #### Binary
 
