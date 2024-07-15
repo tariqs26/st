@@ -6,9 +6,9 @@ import type {
   Identifier,
   MemberExpr,
   ObjectLiteral,
-} from "backend/ast"
+} from "../../backend/ast"
 
-import { FunctionReturn, SyntaxError, TypeError } from "utils/errors"
+import { FunctionReturn, SyntaxError, TypeError } from "../../utils/errors"
 import { evaluate } from "../interpreter"
 import Scope from "../scope"
 

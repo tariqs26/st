@@ -1,5 +1,6 @@
-import Interpreter from "runtime/interpreter"
-;(function repl() {
+import Interpreter from "../runtime/interpreter"
+
+function repl() {
   const interpreter = new Interpreter()
 
   const border = `*${"-".repeat(13)}*`
@@ -18,4 +19,6 @@ import Interpreter from "runtime/interpreter"
       console.error((error as Error).message)
     }
   }
-})()
+}
+
+repl()

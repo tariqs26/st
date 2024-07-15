@@ -1,4 +1,4 @@
-import type { RuntimeVal } from "runtime/values"
+import type { RuntimeVal } from "../runtime/values"
 
 export default class ProgramError extends Error {
   constructor(errorType: string, description: string) {

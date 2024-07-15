@@ -1,4 +1,4 @@
-import Interpreter from "runtime/interpreter"
+import Interpreter from "../runtime/interpreter"
 
 async function run() {
   const interpreter = new Interpreter()

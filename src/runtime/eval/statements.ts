@@ -8,7 +8,7 @@ import type {
   Return,
   VarDeclaration,
   WhileLoop,
-} from "backend/ast"
+} from "../../backend/ast"
 
 import {
   Break,
@@ -16,11 +16,11 @@ import {
   FunctionReturn,
   SyntaxError,
   TypeError,
-} from "utils/errors"
+} from "../../utils/errors"
 
 import { evaluate } from "../interpreter"
 import Scope from "../scope"
-import { mkNull, type FunctionVal, type RuntimeVal } from "../values"
+import { type FunctionVal, type RuntimeVal, mkNull } from "../values"
 
 export function evaluateProgram(program: Program, scope: Scope): RuntimeVal {
   let lastEvaluated: RuntimeVal = mkNull()

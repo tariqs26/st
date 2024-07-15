@@ -1,5 +1,5 @@
-import { SyntaxError } from "utils/errors"
-import { identifier, isAlpha, isDigit, isWhitespace } from "utils/validators"
+import { SyntaxError } from "../utils/errors"
+import { identifier, isAlpha, isDigit, isWhitespace } from "../utils/validators"
 import { BINARY_OPERATORS, KEYWORDS, TokenType, type Token } from "./tokens"
 
 const markInvalidToken = (ch: string, pos: number) => {

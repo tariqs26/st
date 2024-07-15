@@ -1,4 +1,4 @@
-import { ReferenceError, SyntaxError, TypeError } from "utils/errors"
+import { ReferenceError, SyntaxError, TypeError } from "../utils/errors"
 import type { RuntimeVal, RuntimeValType } from "./values"
 
 type ScopeType = "Global" | "ControlFlow" | "Loop" | "Function"
@@ -31,9 +31,7 @@ export default class Scope {
     if (this.variables.has(varname))
       throw new SyntaxError(`identifier "${varname}" has already been declared`)
     this.variables.set(varname, value)
-
     if (constant) this.constants.add(varname)
-
     return value
   }
 
@@ -52,10 +50,8 @@ export default class Scope {
 
   resolve(varname: string): Scope {
     if (this.variables.has(varname)) return this
-
     if (this.parent === undefined)
       throw new ReferenceError(`"${varname}" is not defined`)
-
     return this.parent.resolve(varname)
   }
 }

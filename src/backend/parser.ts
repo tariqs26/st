@@ -1,5 +1,5 @@
-import type ProgramError from "utils/errors"
-import { InternalError, SyntaxError } from "utils/errors"
+import type ProgramError from "../utils/errors"
+import { InternalError, SyntaxError } from "../utils/errors"
 import type {
   ArrayItem,
   Expr,
@@ -35,7 +35,6 @@ export default class Parser {
   private expect(type: TokenType, error: ProgramError) {
     const prev = this.next()
     if (prev === undefined || prev.type !== type) throw error
-
     return prev
   }
 
