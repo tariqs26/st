@@ -13,8 +13,6 @@
     "verbatimModuleSyntax": true,
     "noEmit": true,
 
-    "baseUrl": "./src",
-
     // best practices
     "strict": true,
     "skipLibCheck": true,
