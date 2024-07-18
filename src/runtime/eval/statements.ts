@@ -54,9 +54,7 @@ export function evaluateControlFlow(
 
   for (const statement of condition.value
     ? declaration.body
-    : declaration.elseBody !== undefined
-    ? declaration.elseBody
-    : [])
+    : declaration.elseBody ?? [])
     evaluate(statement, scope)
 
   return mkNull()
