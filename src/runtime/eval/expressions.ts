@@ -301,9 +301,9 @@ export function evalCallExpr(expr: CallExpr, scope: Scope): RuntimeVal {
       }
     }
 
-    for (let i = 0; i < fn.body.length; i++) {
+    for (const statement of fn.body) {
       try {
-        evaluate(fn.body[i], scope)
+        evaluate(statement, scope)
       } catch (error) {
         if (error instanceof FunctionReturn) return error.value
         throw error
