@@ -1,6 +1,6 @@
 <h1>st-programming-language</h1>
 
-An interpreted language with a javascript-like syntax and some overlapping features from Python, written in Typescript. Features a lexer, ast, parser, and interpreter, with a repl and file runner.
+An interpreted language with a JavaScript-like syntax, written in Typescript. Features a lexer, ast, parser, and interpreter, with a repl and file runner.
 
 <h2>Table of Contents</h2>
 
