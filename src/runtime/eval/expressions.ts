@@ -6,6 +6,7 @@ import type {
   Identifier,
   MemberExpr,
   ObjectLiteral,
+  UnaryExpr,
 } from "../../backend/ast"
 
 import { FunctionReturn, SyntaxError, TypeError } from "../../utils/errors"
@@ -90,6 +91,28 @@ export function evaluateBinaryExpr(expr: BinaryExpr, scope: Scope): RuntimeVal {
 
   if (left.type === "boolean" && right.type === "boolean")
     return mkBoolean(evaluateBooleanBinaryExpr(left, right, expr.operator))
+
+  return mkNull()
+}
+
+export function evaluateUnaryExpr(expr: UnaryExpr, scope: Scope): RuntimeVal {
+  const value = evaluate(expr.operand, scope)
+
+  if (value.type === "number") {
+    switch (expr.operator) {
+      case "+":
+        return value
+      case "-":
+        return mkNumber(-value.value)
+      default:
+        throw new TypeError(`Invalid operator ${expr.operator} for numbers`)
+    }
+  }
+
+  if (value.type === "boolean") {
+    if (expr.operator === "!") return mkBoolean(!value.value)
+    throw new TypeError(`Invalid operator ${expr.operator} for booleans`)
+  }
 
   return mkNull()
 }

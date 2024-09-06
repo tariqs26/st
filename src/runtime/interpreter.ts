@@ -34,6 +34,8 @@ export function evaluate(astNode: Stmt, scope: Scope): RuntimeVal {
       return expr.evaluateObjectExpr(astNode, scope)
     case "BinaryExpr":
       return expr.evaluateBinaryExpr(astNode, scope)
+    case "UnaryExpr":
+      return expr.evaluateUnaryExpr(astNode, scope)
     case "AssignmentExpr":
       return expr.evalAssignmentExpr(astNode, scope)
     case "MemberExpr":
