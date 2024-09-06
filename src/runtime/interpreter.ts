@@ -47,7 +47,6 @@ export function evaluate(astNode: Stmt, scope: Scope): RuntimeVal {
     case "ControlFlow":
       return stmt.evaluateControlFlow(astNode, scope)
     case "ForLoop":
-      console.log(astNode)
       return stmt.evaluateForLoop(astNode, scope)
     case "WhileLoop":
       return stmt.evaluateWhileLoop(astNode, scope)
