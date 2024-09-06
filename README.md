@@ -19,6 +19,7 @@ An interpreted language with a javascript-like syntax and some overlapping featu
     - [Variable Declaration](#variable-declaration)
     - [Control Flow](#control-flow)
     - [Loops](#loops)
+      - [For](#for)
       - [While](#while)
     - [Function Declaration](#function-declaration)
   - [Comments](#comments)
@@ -26,7 +27,7 @@ An interpreted language with a javascript-like syntax and some overlapping featu
 - [Installation](#installation)
 - [Available Scripts](#available-scripts)
 - [Usage](#usage)
-- [Todo](#todo)
+- [Roadmap](#roadmap)
 - [Contributing](#contributing)
 - [License](#license)
 - [Acknowledgements](#acknowledgements)
@@ -113,10 +114,17 @@ if 3 > 2 {
 } else {
   print("3 is equal to 2")
 }
-
 ```
 
 #### Loops
+
+##### For
+
+```rs
+for let i = 0; i < 10; i = i + 1 {
+  print(i)
+}
+```
 
 ##### While
 
@@ -223,7 +231,7 @@ while increment() < 10 {
 
 Run file: `bun file program.st`
 
-## Todo
+## Roadmap
 
 - [ ] Fix binary operators and unary for different types
 - [ ] Control Flow (elif)
