@@ -49,6 +49,7 @@ An interpreted language with a javascript-like syntax and some overlapping featu
 
 - Logical `!`
 - Negation `-`
+- Positive `+`
 
 #### Binary
 
@@ -68,7 +69,6 @@ x = 3
 ##### Computed
 
 ```rs
-
 foo[0]
 foo[3 + 4]
 foo["bar"]
@@ -233,7 +233,6 @@ Run file: `bun file program.st`
 
 ## Roadmap
 
-- [ ] Fix binary operators and unary for different types
 - [ ] Control Flow (elif)
 - [ ] Update expression (++, --) postfix/prefix
 - [ ] Better Error Messages with Line Numbers and Context
