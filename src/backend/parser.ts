@@ -28,7 +28,6 @@ export default class Parser {
     const nextToken = this.tokens.shift()
     if (nextToken === undefined)
       throw new InternalError("unexpected end of input")
-    
     return nextToken
   }
 
@@ -442,8 +441,6 @@ export default class Parser {
   private parseForLoop() {
     this.next()
 
-    this.expect(TokenType.OpenParen, new SyntaxError("missing ("))
-
     if (this.EOF) throw new SyntaxError("missing init")
 
     const init = this.parseVarDeclaration()
@@ -465,10 +462,6 @@ export default class Parser {
     )
 
     const update = this.parseExpr()
-
-    if (this.EOF) throw new SyntaxError("missing )")
-
-    this.expect(TokenType.CloseParen, new SyntaxError("missing )"))
 
     this.expect(TokenType.OpenBrace, new SyntaxError("missing {"))
 
