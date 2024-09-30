@@ -1,5 +1,5 @@
 import { SyntaxError } from "../utils/errors"
-import { identifier, isAlpha, isDigit, isWhitespace } from "../utils/validators"
+import { validator } from "../utils/validator"
 import { BINARY_OPERATORS, KEYWORDS, TokenType, type Token } from "./tokens"
 
 const markInvalidToken = (ch: string, pos: number) => {
@@ -27,7 +27,7 @@ export default class Lexer {
 
     while (
       this.pos < src.length &&
-      (isDigit(src[this.pos]) || src[this.pos] === ".")
+      (validator.isDigit(src[this.pos]) || src[this.pos] === ".")
     ) {
       if (src[this.pos] === ".") {
         if (isFloat) throw new SyntaxError("float number has more than one '.'")
@@ -42,7 +42,7 @@ export default class Lexer {
   private identifier(src: string) {
     let ident = ""
 
-    while (this.pos < src.length && identifier(src[this.pos]))
+    while (this.pos < src.length && validator.identifier(src[this.pos]))
       ident += src[this.pos++]
 
     this.tokens.push(this.token(ident, KEYWORDS[ident] ?? TokenType.Ident))
@@ -79,8 +79,8 @@ export default class Lexer {
         this.tokens.push(this.token(ch, TokenType.CloseBrace))
       else if (ch === ",") this.tokens.push(this.token(ch, TokenType.Comma))
       else if (ch === ".") {
-        if (this.pos < src.length && isDigit(src[this.pos + 1])) {
-          if (this.pos > 0 && !isAlpha(src[this.pos - 1])) {
+        if (this.pos < src.length && validator.isDigit(src[this.pos + 1])) {
+          if (this.pos > 0 && !validator.isAlpha(src[this.pos - 1])) {
             this.number(src)
             continue
           }
@@ -97,17 +97,20 @@ export default class Lexer {
           continue
         }
       } else if (["+", "-"].includes(ch)) {
-        if (this.pos < src.length && src[this.pos + 1] === ch) {
-          this.pos++
-          this.tokens.push(this.token(ch.repeat(2), TokenType.UnaryOp))
-        } else if (this.pos < src.length && !isWhitespace(src[this.pos + 1])) {
+        if (
+          this.pos < src.length &&
+          !validator.isWhitespace(src[this.pos + 1])
+        ) {
           this.tokens.push(this.token(ch, TokenType.UnaryOp))
         } else this.tokens.push(this.token(ch, TokenType.BinaryOp))
       } else if (ch === "!") {
         if (this.pos < src.length && src[this.pos + 1] === "=") {
           this.pos++
           this.tokens.push(this.token("!=", TokenType.BinaryOp))
-        } else if (this.pos < src.length && !isWhitespace(src[this.pos + 1]))
+        } else if (
+          this.pos < src.length &&
+          !validator.isWhitespace(src[this.pos + 1])
+        )
           this.tokens.push(this.token("!", TokenType.UnaryOp))
         else markInvalidToken(ch, this.pos)
       } else if ([">", "<"].includes(ch)) {
@@ -127,15 +130,15 @@ export default class Lexer {
         if (this.pos < src.length && src[this.pos] === ch)
           this.tokens.push(this.token(ch.repeat(2), TokenType.BinaryOp))
         else markInvalidToken(ch, this.pos - 1)
-      } else if (isDigit(ch)) {
+      } else if (validator.isDigit(ch)) {
         this.number(src)
         continue
-      } else if (isAlpha(ch)) {
+      } else if (validator.isAlpha(ch)) {
         this.identifier(src)
         continue
       } else if (ch === '"') this.string(src)
       else if (ch === "\n") this.ln++
-      else if (!isWhitespace(ch)) markInvalidToken(ch, this.pos)
+      else if (!validator.isWhitespace(ch)) markInvalidToken(ch, this.pos)
 
       this.pos++
     }
