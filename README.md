@@ -53,7 +53,7 @@ An interpreted language with a JavaScript-like syntax, written in Typescript. Fe
 
 #### Binary
 
-- Multiplicative `(\*, /, //, %)`
+- Multiplicative `(*, /, //, %)`
 - Additive `(+, -)`
 - Relational `(==, !=, <, <=, >, >=)`
 - Logical `(&&, ||)`
