@@ -70,7 +70,7 @@ export function evalForLoop(
     const condition = evaluate(declaration.condition, scope)
 
     if (condition.type !== "boolean")
-      throw new TypeError("Expected boolean expression")
+      throw new TypeError("expected boolean expression")
 
     if (!condition.value) break
 
