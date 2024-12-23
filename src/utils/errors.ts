@@ -37,13 +37,13 @@ export class FunctionReturn extends ProgramError {
   }
 }
 
-export class Break extends ProgramError {
+export class BreakStmt extends ProgramError {
   constructor() {
     super("Break", "Break statement")
   }
 }
 
-export class Continue extends ProgramError {
+export class ContinueStmt extends ProgramError {
   constructor() {
     super("Continue", "Continue statement")
   }

@@ -5,8 +5,8 @@ export type Stmt =
   | ControlFlow
   | ForLoop
   | WhileLoop
-  | BreakStmt
-  | ContinueStmt
+  | Break
+  | Continue
   | Return
   | Expr
 
@@ -43,11 +43,11 @@ export type WhileLoop = {
   body: Stmt[]
 }
 
-export type BreakStmt = {
+export type Break = {
   kind: "Break"
 }
 
-export type ContinueStmt = {
+export type Continue = {
   kind: "Continue"
 }
 

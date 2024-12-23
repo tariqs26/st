@@ -1,6 +1,6 @@
 import type {
-  BreakStmt,
-  ContinueStmt,
+  Break,
+  Continue,
   ControlFlow,
   ForLoop,
   FunctionDeclaration,
@@ -11,8 +11,8 @@ import type {
 } from "../../backend/ast"
 
 import {
-  Break,
-  Continue,
+  BreakStmt,
+  ContinueStmt,
   FunctionReturn,
   SyntaxError,
   TypeError,
@@ -82,8 +82,8 @@ export function evaluateForLoop(
       try {
         evaluate(statement, innerScope)
       } catch (error) {
-        if (error instanceof Break) break outer
-        if (error instanceof Continue) continue outer
+        if (error instanceof BreakStmt) break outer
+        if (error instanceof ContinueStmt) continue outer
         throw error
       }
     }
@@ -116,8 +116,8 @@ export function evaluateWhileLoop(
       try {
         evaluate(statement, scope)
       } catch (error) {
-        if (error instanceof Break) break outer
-        if (error instanceof Continue) continue outer
+        if (error instanceof BreakStmt) break outer
+        if (error instanceof ContinueStmt) continue outer
         throw error
       }
 
@@ -125,7 +125,7 @@ export function evaluateWhileLoop(
 }
 
 export function evaluateBreakContinue(
-  declaration: BreakStmt | ContinueStmt,
+  declaration: Break | Continue,
   scope: Scope
 ): RuntimeVal {
   while (scope.scopeType !== "Loop" && scope.parent !== undefined)
@@ -136,8 +136,8 @@ export function evaluateBreakContinue(
   if (scope.scopeType !== "Loop")
     throw new SyntaxError("break/continue statement outside of loop")
 
-  if (declaration.kind === "Break") throw new Break()
-  throw new Continue()
+  if (declaration.kind === "Break") throw new BreakStmt()
+  throw new ContinueStmt()
 }
 
 export function evaluateFunctionDeclaration(
