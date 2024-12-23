@@ -14,7 +14,10 @@
     "enabled": true,
     "rules": {
       "recommended": true,
-      "suspicious": { "noExplicitAny": "off" }
+      "suspicious": {
+        "noExplicitAny": "off",
+        "noShadowRestrictedNames": "warn"
+      }
     }
   }
 }
