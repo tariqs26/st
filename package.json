@@ -8,10 +8,10 @@
     "file": "bun run src/cli/file.ts"
   },
   "devDependencies": {
-    "@biomejs/biome": "1.8.3",
-    "@types/bun": "latest"
+    "@biomejs/biome": "1.9.4",
+    "@types/bun": "^1.1.14"
   },
   "peerDependencies": {
-    "typescript": "^5.3.3"
+    "typescript": "^5.7.2"
   }
 }
