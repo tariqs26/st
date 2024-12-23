@@ -237,12 +237,14 @@ Run file: `bun file program.st`
 
 - [ ] Control Flow (elif)
 - [ ] Update expressions (++, --) postfix/prefix and (+=, -=, ...)
-- [ ] Better error messages with line numbers, context, etc.
 - [ ] Error handling (try-catch, throw)
+- [ ] Better error messages with line numbers, context, etc.
 - [ ] OOP
 - [ ] Types
 - [ ] Standard library
 - [ ] Modules
+- [ ] Improve REPL, add history, autocomplete, etc.
+- [ ] Syntax highlighting (VSCode extension)
 
 ## Contributing
 
