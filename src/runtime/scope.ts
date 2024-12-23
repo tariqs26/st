@@ -1,4 +1,4 @@
-import { ReferenceError, SyntaxError, TypeError } from "../utils/errors"
+import { ReferenceError, SyntaxError, TypeError } from "@/utils/errors"
 import type { RuntimeVal, RuntimeValType } from "./values"
 
 type ScopeType = "Global" | "ControlFlow" | "Loop" | "Function"

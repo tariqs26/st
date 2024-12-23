@@ -1,5 +1,5 @@
-import { Scope } from "../runtime/scope"
-import type { ArrayVal, RuntimeVal, StringVal } from "../runtime/values"
+import { Scope } from "@/runtime/scope"
+import type { ArrayVal, RuntimeVal, StringVal } from "@/runtime/values"
 import {
   mkBoolean,
   mkNativeFn,
@@ -7,7 +7,7 @@ import {
   mkNumber,
   mkString,
   mkType,
-} from "../runtime/values"
+} from "@/runtime/values"
 import { SyntaxError, TypeError } from "./errors"
 
 export function formatRuntimeVal(val: RuntimeVal): any {

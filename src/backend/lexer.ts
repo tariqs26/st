@@ -1,5 +1,5 @@
-import { SyntaxError } from "../utils/errors"
-import { validator } from "../utils/validator"
+import { SyntaxError } from "@/utils/errors"
+import { validator } from "@/utils/validator"
 import {
   KEYWORDS,
   STANDALONE_TOKENS,

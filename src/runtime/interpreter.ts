@@ -1,12 +1,9 @@
-import type { Stmt } from "../backend/ast"
-import { Parser } from "../backend/parser"
-
-import { InternalError } from "../utils/errors"
-import { createGlobalScope } from "../utils/scope"
-
+import type { Stmt } from "@/backend/ast"
+import { Parser } from "@/backend/parser"
+import { InternalError } from "@/utils/errors"
+import { createGlobalScope } from "@/utils/scope"
 import * as expr from "./eval/expressions"
 import * as stmt from "./eval/statements"
-
 import type { Scope } from "./scope"
 import {
   type RuntimeVal,

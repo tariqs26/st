@@ -1,4 +1,4 @@
-import { InternalError, type ProgramError, SyntaxError } from "../utils/errors"
+import { InternalError, type ProgramError, SyntaxError } from "@/utils/errors"
 import type {
   ArrayItem,
   Expr,

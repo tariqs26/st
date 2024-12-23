@@ -7,8 +7,8 @@ import type {
   MemberExpr,
   ObjectLiteral,
   UnaryExpr,
-} from "../../backend/ast"
-import { FunctionReturn, SyntaxError, TypeError } from "../../utils/errors"
+} from "@/backend/ast"
+import { FunctionReturn, SyntaxError, TypeError } from "@/utils/errors"
 import { evaluate } from "../interpreter"
 import { Scope } from "../scope"
 import type {

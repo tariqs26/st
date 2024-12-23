@@ -8,14 +8,14 @@ import type {
   Return,
   VarDeclaration,
   WhileLoop,
-} from "../../backend/ast"
+} from "@/backend/ast"
 import {
   BreakStmt,
   ContinueStmt,
   FunctionReturn,
   SyntaxError,
   TypeError,
-} from "../../utils/errors"
+} from "@/utils/errors"
 import { evaluate } from "../interpreter"
 import { Scope } from "../scope"
 import { type FunctionVal, type RuntimeVal, mkNull } from "../values"
