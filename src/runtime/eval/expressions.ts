@@ -51,7 +51,7 @@ function evalNumericBinaryExpr(
     case "!=":
       return left.value !== right.value
     default:
-      throw new TypeError(`Invalid operator ${operator} for numbers`)
+      throw new TypeError(`unsupported operator ${operator} for numbers`)
   }
 }
 
@@ -70,18 +70,16 @@ function evalBooleanBinaryExpr(
     case "!=":
       return left.value !== right.value
     default:
-      throw new TypeError(`Invalid operator ${operator} for booleans`)
+      throw new TypeError(`unsupported operator ${operator} for booleans`)
   }
 }
 
 export function evalBinaryExpr(expr: BinaryExpr, scope: Scope): RuntimeVal {
   const left = evaluate(expr.left, scope)
-
   const right = evaluate(expr.right, scope)
 
   if (left.type === "number" && right.type === "number") {
     const evaluatedExpr = evalNumericBinaryExpr(left, right, expr.operator)
-
     return typeof evaluatedExpr === "boolean"
       ? mkBoolean(evaluatedExpr)
       : mkNumber(evaluatedExpr)
@@ -92,13 +90,12 @@ export function evalBinaryExpr(expr: BinaryExpr, scope: Scope): RuntimeVal {
 
   if (left.type === "string" && right.type === "string") {
     if (expr.operator !== "+")
-      throw new TypeError(`Invalid operator ${expr.operator} for strings`)
-
+      throw new TypeError(`unsupported operator ${expr.operator} for strings`)
     return mkString(left.value + right.value)
   }
 
   throw new TypeError(
-    `Invalid operator ${expr.operator} for ${left.type} and ${right.type}`
+    `unsupported operator ${expr.operator} for ${left.type} and ${right.type}`
   )
 }
 
@@ -118,10 +115,10 @@ export function evalUnaryExpr(expr: UnaryExpr, scope: Scope): RuntimeVal {
 
   if (value.type === "boolean") {
     if (expr.operator === "!") return mkBoolean(!value.value)
-    throw new TypeError(`Invalid operator ${expr.operator} for booleans`)
+    throw new TypeError(`unsupported operator ${expr.operator} for booleans`)
   }
 
-  throw new TypeError(`Invalid operator ${expr.operator} for ${value.type}`)
+  throw new TypeError(`unsupported operator ${expr.operator} for ${value.type}`)
 }
 
 export function evalIdentifier(ident: Identifier, scope: Scope): RuntimeVal {
@@ -137,7 +134,6 @@ export function evalObjectExpr(obj: ObjectLiteral, scope: Scope): RuntimeVal {
   for (const { key, value } of obj.properties) {
     const runtimeVal =
       value === undefined ? scope.lookupVar(key) : evaluate(value, scope)
-
     object.value.set(key, runtimeVal)
   }
 
@@ -150,7 +146,9 @@ export function evalArrayExpr(arr: ArrayLiteral, scope: Scope): RuntimeVal {
     value: new Array<RuntimeVal>(),
   } satisfies ArrayVal
 
-  for (const { value } of arr.items) array.value.push(evaluate(value, scope))
+  for (const { value } of arr.items) {
+    array.value.push(evaluate(value, scope))
+  }
 
   return array
 }
@@ -160,9 +158,8 @@ export function evalAssignmentExpr(
   scope: Scope
 ): RuntimeVal {
   if (
-    !(
-      node.assignee.kind === "Identifier" || node.assignee.kind === "MemberExpr"
-    )
+    node.assignee.kind !== "Identifier" &&
+    node.assignee.kind !== "MemberExpr"
   )
     throw new SyntaxError("Invalid assignment target")
 
@@ -175,7 +172,7 @@ export function evalAssignmentExpr(
 
   const object = evaluate(node.assignee.object, scope)
 
-  if (!(object.type === "object" || object.type === "array"))
+  if (object.type !== "object" && object.type !== "array")
     throw new TypeError(`${object.type} is not assignable`)
 
   if (node.assignee.computed) {
