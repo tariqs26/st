@@ -9,7 +9,6 @@ import type {
   VarDeclaration,
   WhileLoop,
 } from "../../backend/ast"
-
 import {
   BreakStmt,
   ContinueStmt,
@@ -17,12 +16,11 @@ import {
   SyntaxError,
   TypeError,
 } from "../../utils/errors"
-
 import { evaluate } from "../interpreter"
 import Scope from "../scope"
 import { type FunctionVal, type RuntimeVal, mkNull } from "../values"
 
-export function evaluateProgram(program: Program, scope: Scope): RuntimeVal {
+export function evalProgram(program: Program, scope: Scope): RuntimeVal {
   let lastEvaluated: RuntimeVal = mkNull()
 
   for (const statement of program.body)
@@ -31,7 +29,7 @@ export function evaluateProgram(program: Program, scope: Scope): RuntimeVal {
   return lastEvaluated
 }
 
-export function evaluateVarDeclaration(
+export function evalVarDeclaration(
   declaration: VarDeclaration,
   scope: Scope
 ): RuntimeVal {
@@ -41,7 +39,7 @@ export function evaluateVarDeclaration(
   return scope.declareVar(declaration.ident, value, declaration.constant)
 }
 
-export function evaluateControlFlow(
+export function evalControlFlow(
   declaration: ControlFlow,
   declarationScope: Scope
 ): RuntimeVal {
@@ -60,7 +58,7 @@ export function evaluateControlFlow(
   return mkNull()
 }
 
-export function evaluateForLoop(
+export function evalForLoop(
   declaration: ForLoop,
   declarationScope: Scope
 ): RuntimeVal {
@@ -94,7 +92,7 @@ export function evaluateForLoop(
   return mkNull()
 }
 
-export function evaluateWhileLoop(
+export function evalWhileLoop(
   declaration: WhileLoop,
   declarationScope: Scope
 ): RuntimeVal {
@@ -124,7 +122,7 @@ export function evaluateWhileLoop(
   return mkNull()
 }
 
-export function evaluateBreakContinue(
+export function evalBreakContinue(
   declaration: Break | Continue,
   scope: Scope
 ): RuntimeVal {
@@ -140,7 +138,7 @@ export function evaluateBreakContinue(
   throw new ContinueStmt()
 }
 
-export function evaluateFunctionDeclaration(
+export function evalFunctionDeclaration(
   declaration: FunctionDeclaration,
   scope: Scope
 ): RuntimeVal {
@@ -153,7 +151,7 @@ export function evaluateFunctionDeclaration(
   return scope.declareVar(declaration.name, fn, true)
 }
 
-export function evaluateReturn(declaration: Return, scope: Scope): RuntimeVal {
+export function evalReturn(declaration: Return, scope: Scope): RuntimeVal {
   while (scope.scopeType !== "Function" && scope.parent !== undefined)
     scope = scope.parent
 

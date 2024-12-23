@@ -8,11 +8,9 @@ import type {
   ObjectLiteral,
   UnaryExpr,
 } from "../../backend/ast"
-
 import { FunctionReturn, SyntaxError, TypeError } from "../../utils/errors"
 import { evaluate } from "../interpreter"
 import Scope from "../scope"
-
 import type {
   ArrayVal,
   BooleanVal,
@@ -22,7 +20,7 @@ import type {
 } from "../values"
 import { mkBoolean, mkNull, mkNumber, mkString } from "../values"
 
-function evaluateNumericBinaryExpr(
+function evalNumericBinaryExpr(
   left: NumberVal,
   right: NumberVal,
   operator: string
@@ -57,7 +55,7 @@ function evaluateNumericBinaryExpr(
   }
 }
 
-function evaluateBooleanBinaryExpr(
+function evalBooleanBinaryExpr(
   left: BooleanVal,
   right: BooleanVal,
   operator: string
@@ -76,13 +74,13 @@ function evaluateBooleanBinaryExpr(
   }
 }
 
-export function evaluateBinaryExpr(expr: BinaryExpr, scope: Scope): RuntimeVal {
+export function evalBinaryExpr(expr: BinaryExpr, scope: Scope): RuntimeVal {
   const left = evaluate(expr.left, scope)
 
   const right = evaluate(expr.right, scope)
 
   if (left.type === "number" && right.type === "number") {
-    const evaluatedExpr = evaluateNumericBinaryExpr(left, right, expr.operator)
+    const evaluatedExpr = evalNumericBinaryExpr(left, right, expr.operator)
 
     return typeof evaluatedExpr === "boolean"
       ? mkBoolean(evaluatedExpr)
@@ -90,12 +88,12 @@ export function evaluateBinaryExpr(expr: BinaryExpr, scope: Scope): RuntimeVal {
   }
 
   if (left.type === "boolean" && right.type === "boolean")
-    return mkBoolean(evaluateBooleanBinaryExpr(left, right, expr.operator))
+    return mkBoolean(evalBooleanBinaryExpr(left, right, expr.operator))
 
   return mkNull()
 }
 
-export function evaluateUnaryExpr(expr: UnaryExpr, scope: Scope): RuntimeVal {
+export function evalUnaryExpr(expr: UnaryExpr, scope: Scope): RuntimeVal {
   const value = evaluate(expr.operand, scope)
 
   if (value.type === "number") {
@@ -117,17 +115,11 @@ export function evaluateUnaryExpr(expr: UnaryExpr, scope: Scope): RuntimeVal {
   return mkNull()
 }
 
-export function evaluateIdentifier(
-  ident: Identifier,
-  scope: Scope
-): RuntimeVal {
+export function evalIdentifier(ident: Identifier, scope: Scope): RuntimeVal {
   return scope.lookupVar(ident.symbol)
 }
 
-export function evaluateObjectExpr(
-  obj: ObjectLiteral,
-  scope: Scope
-): RuntimeVal {
+export function evalObjectExpr(obj: ObjectLiteral, scope: Scope): RuntimeVal {
   const object = {
     type: "object",
     value: new Map<string, RuntimeVal>(),
@@ -143,7 +135,7 @@ export function evaluateObjectExpr(
   return object
 }
 
-export function evaluateArrayExpr(arr: ArrayLiteral, scope: Scope): RuntimeVal {
+export function evalArrayExpr(arr: ArrayLiteral, scope: Scope): RuntimeVal {
   const array = {
     type: "array",
     value: new Array<RuntimeVal>(),

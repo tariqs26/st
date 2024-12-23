@@ -9,17 +9,17 @@ import * as stmt from "./eval/statements"
 
 import type Scope from "./scope"
 import {
+  type RuntimeVal,
   mkBoolean,
   mkNull,
   mkNumber,
   mkString,
-  type RuntimeVal,
 } from "./values"
 
 export function evaluate(astNode: Stmt, scope: Scope): RuntimeVal {
   switch (astNode.kind) {
     case "Identifier":
-      return expr.evaluateIdentifier(astNode, scope)
+      return expr.evalIdentifier(astNode, scope)
     case "NumericLiteral":
       return mkNumber(astNode.value)
     case "StringLiteral":
@@ -29,13 +29,13 @@ export function evaluate(astNode: Stmt, scope: Scope): RuntimeVal {
     case "NullLiteral":
       return mkNull()
     case "ArrayLiteral":
-      return expr.evaluateArrayExpr(astNode, scope)
+      return expr.evalArrayExpr(astNode, scope)
     case "ObjectLiteral":
-      return expr.evaluateObjectExpr(astNode, scope)
+      return expr.evalObjectExpr(astNode, scope)
     case "BinaryExpr":
-      return expr.evaluateBinaryExpr(astNode, scope)
+      return expr.evalBinaryExpr(astNode, scope)
     case "UnaryExpr":
-      return expr.evaluateUnaryExpr(astNode, scope)
+      return expr.evalUnaryExpr(astNode, scope)
     case "AssignmentExpr":
       return expr.evalAssignmentExpr(astNode, scope)
     case "MemberExpr":
@@ -43,22 +43,22 @@ export function evaluate(astNode: Stmt, scope: Scope): RuntimeVal {
     case "CallExpr":
       return expr.evalCallExpr(astNode, scope)
     case "Program":
-      return stmt.evaluateProgram(astNode, scope)
+      return stmt.evalProgram(astNode, scope)
     case "VarDeclaration":
-      return stmt.evaluateVarDeclaration(astNode, scope)
+      return stmt.evalVarDeclaration(astNode, scope)
     case "ControlFlow":
-      return stmt.evaluateControlFlow(astNode, scope)
+      return stmt.evalControlFlow(astNode, scope)
     case "ForLoop":
-      return stmt.evaluateForLoop(astNode, scope)
+      return stmt.evalForLoop(astNode, scope)
     case "WhileLoop":
-      return stmt.evaluateWhileLoop(astNode, scope)
+      return stmt.evalWhileLoop(astNode, scope)
     case "Break":
     case "Continue":
-      return stmt.evaluateBreakContinue(astNode, scope)
+      return stmt.evalBreakContinue(astNode, scope)
     case "FunctionDeclaration":
-      return stmt.evaluateFunctionDeclaration(astNode, scope)
+      return stmt.evalFunctionDeclaration(astNode, scope)
     case "Return":
-      return stmt.evaluateReturn(astNode, scope)
+      return stmt.evalReturn(astNode, scope)
     default:
       throw new InternalError(
         `AST Node cannot yet be interpreted \n${JSON.stringify(
