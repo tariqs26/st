@@ -252,12 +252,10 @@ export function evalMemberExpr(expr: MemberExpr, scope: Scope): RuntimeVal {
     return (object as ObjectVal).value.get(property.value) ?? mkNull()
   }
 
-  let key: string
-
   if (expr.property.kind !== "Identifier")
     throw new TypeError(`expected identifier, received ${expr.property.kind}`)
 
-  key = expr.property.symbol
+  const key = expr.property.symbol
 
   if (object.type === "object") return object.value.get(key) ?? mkNull()
 
