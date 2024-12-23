@@ -161,12 +161,9 @@ fn fib(n) {
 
 ```rs
 print("Hello, World!")
-
 const name = input("What is your name?")
-
 random()
 random(1, 10)
-
 typeof(3)
 ```
 
@@ -193,7 +190,7 @@ fn add(a, b) {
   return sum
 }
 
-const result = add(3, 4)
+let result = add(3, 4)
 
 const foo = {
   result: result / 3,
@@ -201,9 +198,7 @@ const foo = {
   isBar: 1 > 2 || 3 < 4,
 }
 
-let key = "isBar"
-
-if foo[key] == "isBar" {
+if foo["is" + "Bar"] {
   print("foo is bar")
 } else {
   print("foo is not bar")
