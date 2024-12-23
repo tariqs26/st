@@ -1,6 +1,6 @@
-<h1>st-programming-language</h1>
+<h1>ST Language</h1>
 
-An interpreted language with a JavaScript-like syntax, written in Typescript. Features a lexer, ast, parser, and interpreter, with a repl and file runner.
+An interpreted language with a JavaScript-like syntax, written in [Typescript](https://www.typescriptlang.org/). It features a lexer, ast, parser, interpreter, REPL and file runner.
 
 <h2>Table of Contents</h2>
 
@@ -169,16 +169,20 @@ typeof(3)
 
 ## Installation
 
+Ensure you have [Bun](https://bun.sh/) (v1.1.x or higher) installed.
+
 ```bash
 bun install
 ```
 
 ## Available Scripts
 
-| Command           | Description  | Example               |
-| ----------------- | ------------ | --------------------- |
-| `bun run repl`    | Run the repl |                       |
-| `bun file <file>` | Run a file   | `bun file program.st` |
+| Command           | Description  |
+| ----------------- | ------------ |
+| `bun lint`        | Lint         |
+| `bun test`        | Test         |
+| `bun run repl`    | Run the REPL |
+| `bun file <file>` | Run a file   |
 
 ## Usage
 
@@ -232,12 +236,12 @@ Run file: `bun file program.st`
 ## Roadmap
 
 - [ ] Control Flow (elif)
-- [ ] Update expressions (++, --) postfix/prefix and (+=, -=, *=, /=)
-- [ ] Better Error Messages with Line Numbers and Context
-- [ ] Error Handling (try-catch, throw)
+- [ ] Update expressions (++, --) postfix/prefix and (+=, -=, ...)
+- [ ] Better error messages with line numbers, context, etc.
+- [ ] Error handling (try-catch, throw)
 - [ ] OOP
 - [ ] Types
-- [ ] Standard Library
+- [ ] Standard library
 - [ ] Modules
 
 ## Contributing
@@ -250,7 +254,7 @@ Run file: `bun file program.st`
 
 ## License
 
-Distributed under the MIT License. See `LICENSE` for more information.
+Distributed under the MIT License. See [LICENSE](LICENSE) for more information.
 
 ## Acknowledgements
 
