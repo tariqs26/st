@@ -207,17 +207,20 @@ if foo["is" + "Bar"] {
 print(foo.result)
 print(foo.add(3, 4))
 
+for let i = 0; i < 10; i = i + 1 {
+  print(i)
+}
+
 fn counter() {
   let count = 0
   fn increment() {
     count = count + 1
     return count
   }
-
   return increment
 }
 
-let increment = counter()
+const increment = counter()
 
 while increment() < 10 {
   print(increment())
@@ -229,9 +232,13 @@ Run file: `bun file program.st`
 ## Roadmap
 
 - [ ] Control Flow (elif)
-- [ ] Update expression (++, --) postfix/prefix
+- [ ] Update expressions (++, --) postfix/prefix and (+=, -=, *=, /=)
 - [ ] Better Error Messages with Line Numbers and Context
 - [ ] Error Handling (try-catch, throw)
+- [ ] OOP
+- [ ] Types
+- [ ] Standard Library
+- [ ] Modules
 
 ## Contributing
 
