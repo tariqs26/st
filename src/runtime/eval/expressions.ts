@@ -90,7 +90,16 @@ export function evalBinaryExpr(expr: BinaryExpr, scope: Scope): RuntimeVal {
   if (left.type === "boolean" && right.type === "boolean")
     return mkBoolean(evalBooleanBinaryExpr(left, right, expr.operator))
 
-  return mkNull()
+  if (left.type === "string" && right.type === "string") {
+    if (expr.operator !== "+")
+      throw new TypeError(`Invalid operator ${expr.operator} for strings`)
+
+    return mkString(left.value + right.value)
+  }
+
+  throw new TypeError(
+    `Invalid operator ${expr.operator} for ${left.type} and ${right.type}`
+  )
 }
 
 export function evalUnaryExpr(expr: UnaryExpr, scope: Scope): RuntimeVal {
@@ -112,7 +121,7 @@ export function evalUnaryExpr(expr: UnaryExpr, scope: Scope): RuntimeVal {
     throw new TypeError(`Invalid operator ${expr.operator} for booleans`)
   }
 
-  return mkNull()
+  throw new TypeError(`Invalid operator ${expr.operator} for ${value.type}`)
 }
 
 export function evalIdentifier(ident: Identifier, scope: Scope): RuntimeVal {
