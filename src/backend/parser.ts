@@ -64,7 +64,7 @@ export class Parser {
         return value
       }
       default:
-        throw new InternalError(`Unexpected token '${this.curr().value}'`)
+        throw new InternalError(`unexpected token '${this.curr().value}'`)
     }
   }
 

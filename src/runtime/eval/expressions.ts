@@ -109,7 +109,7 @@ export function evalUnaryExpr(expr: UnaryExpr, scope: Scope): RuntimeVal {
       case "-":
         return mkNumber(-value.value)
       default:
-        throw new TypeError(`Invalid operator ${expr.operator} for numbers`)
+        throw new TypeError(`unsupported operator ${expr.operator} for numbers`)
     }
   }
 
