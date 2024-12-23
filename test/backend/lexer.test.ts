@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, test } from "bun:test"
-import Lexer from "../src/backend/lexer"
-import { KEYWORDS } from "../src/backend/tokens"
+import { Lexer } from "../../src/backend/lexer"
+import { KEYWORDS } from "../../src/backend/tokens"
 
 const lexer = new Lexer()
 
