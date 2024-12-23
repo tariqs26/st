@@ -51,7 +51,7 @@ export function evaluate(astNode: Stmt, scope: Scope): RuntimeVal {
       return stmt.evalWhileLoop(astNode, scope)
     case "Break":
     case "Continue":
-      return stmt.evalBreakContinue(astNode, scope)
+      return stmt.evalBreakOrContinue(astNode, scope)
     case "FunctionDeclaration":
       return stmt.evalFunctionDeclaration(astNode, scope)
     case "Return":

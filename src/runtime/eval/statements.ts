@@ -122,7 +122,7 @@ export function evalWhileLoop(
   return mkNull()
 }
 
-export function evalBreakContinue(
+export function evalBreakOrContinue(
   declaration: Break | Continue,
   scope: Scope
 ): RuntimeVal {
