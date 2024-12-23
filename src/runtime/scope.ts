@@ -3,7 +3,7 @@ import type { RuntimeVal, RuntimeValType } from "./values"
 
 type ScopeType = "Global" | "ControlFlow" | "Loop" | "Function"
 
-export default class Scope {
+export class Scope {
   private builtinProperties: Map<
     RuntimeValType,
     Record<string, (object: any) => RuntimeVal>

@@ -17,7 +17,7 @@ import {
   TypeError,
 } from "../../utils/errors"
 import { evaluate } from "../interpreter"
-import Scope from "../scope"
+import { Scope } from "../scope"
 import { type FunctionVal, type RuntimeVal, mkNull } from "../values"
 
 export function evalProgram(program: Program, scope: Scope): RuntimeVal {

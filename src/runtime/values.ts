@@ -1,5 +1,5 @@
 import type { FunctionParameter, Stmt } from "../backend/ast"
-import type Scope from "./scope"
+import type { Scope } from "./scope"
 
 export type RuntimeVal =
   | NumberVal

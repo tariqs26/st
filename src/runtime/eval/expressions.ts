@@ -10,7 +10,7 @@ import type {
 } from "../../backend/ast"
 import { FunctionReturn, SyntaxError, TypeError } from "../../utils/errors"
 import { evaluate } from "../interpreter"
-import Scope from "../scope"
+import { Scope } from "../scope"
 import type {
   ArrayVal,
   BooleanVal,

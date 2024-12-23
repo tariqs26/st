@@ -1,5 +1,5 @@
 import type { Stmt } from "../backend/ast"
-import Parser from "../backend/parser"
+import { Parser } from "../backend/parser"
 
 import { InternalError } from "../utils/errors"
 import { createGlobalScope } from "../utils/scope"
@@ -7,7 +7,7 @@ import { createGlobalScope } from "../utils/scope"
 import * as expr from "./eval/expressions"
 import * as stmt from "./eval/statements"
 
-import type Scope from "./scope"
+import type { Scope } from "./scope"
 import {
   type RuntimeVal,
   mkBoolean,
@@ -70,7 +70,7 @@ export function evaluate(astNode: Stmt, scope: Scope): RuntimeVal {
   }
 }
 
-export default class Interpreter {
+export class Interpreter {
   private parser = new Parser()
   private scope = createGlobalScope()
 

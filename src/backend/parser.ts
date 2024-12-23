@@ -1,5 +1,4 @@
-import type ProgramError from "../utils/errors"
-import { InternalError, SyntaxError } from "../utils/errors"
+import { InternalError, type ProgramError, SyntaxError } from "../utils/errors"
 import type {
   ArrayItem,
   Expr,
@@ -10,10 +9,10 @@ import type {
   Stmt,
   VarDeclaration,
 } from "./ast"
-import Lexer from "./lexer"
+import { Lexer } from "./lexer"
 import { TOKENS, type Token, type TokenType } from "./tokens"
 
-export default class Parser {
+export class Parser {
   private tokens: Token[] = []
 
   private get EOF() {

@@ -1,4 +1,4 @@
-import Scope from "../runtime/scope"
+import { Scope } from "../runtime/scope"
 import type { ArrayVal, RuntimeVal, StringVal } from "../runtime/values"
 import {
   mkBoolean,

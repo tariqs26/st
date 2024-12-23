@@ -1,4 +1,4 @@
-import Interpreter from "../runtime/interpreter"
+import { Interpreter } from "../runtime/interpreter"
 
 function repl() {
   const interpreter = new Interpreter()

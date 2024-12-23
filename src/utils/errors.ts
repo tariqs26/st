@@ -1,6 +1,6 @@
 import type { RuntimeVal } from "../runtime/values"
 
-export default class ProgramError extends Error {
+export class ProgramError extends Error {
   constructor(errorType: string, description: string) {
     super(`${errorType}: ${description}`)
   }

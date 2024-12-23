@@ -12,7 +12,7 @@ const markInvalidToken = (ch: string, pos: number) => {
   throw new SyntaxError(`illegal character '${ch}' at pos ${pos}`)
 }
 
-export default class Lexer {
+export class Lexer {
   private pos = 0
   private ln = 1
   private tokens = new Array<Token>()
