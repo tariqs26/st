@@ -18,9 +18,9 @@ An interpreted language with a JavaScript-like syntax, written in [Typescript](h
   - [Statements](#statements)
     - [Variable Declaration](#variable-declaration)
     - [Control Flow](#control-flow)
-    - [Loops](#loops)
-      - [For](#for)
-      - [While](#while)
+      - [If-Else](#if-else)
+      - [For Loop](#for-loop)
+      - [While Loop](#while-loop)
     - [Function Declaration](#function-declaration)
   - [Comments](#comments)
   - [Native Functions](#native-functions)
@@ -100,11 +100,13 @@ add(3, 4)
 #### Variable Declaration
 
 ```rs
-const foo = 3
+const PI = 3
 let bar = "Hello, World!"
 ```
 
 #### Control Flow
+
+##### If-Else
 
 limited to if-else for now, parentheses are optional
 
@@ -112,13 +114,11 @@ limited to if-else for now, parentheses are optional
 if 3 > 2 {
   print("3 is greater than 2")
 } else {
-  print("3 is equal to 2")
+  print("foo")
 }
 ```
 
-#### Loops
-
-##### For
+##### For Loop
 
 ```rs
 for let i = 0; i < 10; i = i + 1 {
@@ -126,7 +126,7 @@ for let i = 0; i < 10; i = i + 1 {
 }
 ```
 
-##### While
+##### While Loop
 
 ```rs
 let i = 0
@@ -245,6 +245,7 @@ Run file: `bun file program.st`
 - [ ] Modules
 - [ ] Improve REPL, add history, autocomplete, etc.
 - [ ] Syntax highlighting (VSCode extension)
+- [ ] Rewrite in Rust
 
 ## Contributing
 
