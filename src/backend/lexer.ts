@@ -36,7 +36,7 @@ export class Lexer {
       (validator.isDigit(src[this.pos]) || src[this.pos] === ".")
     ) {
       if (src[this.pos] === ".") {
-        if (isFloat) throw new SyntaxError("float number has more than one '.'")
+        if (isFloat) throw new SyntaxError("invalid floating-point number")
         isFloat = true
       }
       num += src[this.pos++]
