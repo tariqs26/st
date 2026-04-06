@@ -3,7 +3,7 @@
   "module": "index.ts",
   "type": "module",
   "scripts": {
-    "lint": "bunx @biomejs/biome lint --write ./src",
+    "lint": "bunx @biomejs/biome lint --write",
     "repl": "bun run src/cli/repl.ts",
     "file": "bun run src/cli/file.ts"
   },
