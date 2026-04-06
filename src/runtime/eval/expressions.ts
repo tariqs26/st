@@ -143,7 +143,7 @@ export function evalObjectExpr(obj: ObjectLiteral, scope: Scope): RuntimeVal {
 export function evalArrayExpr(arr: ArrayLiteral, scope: Scope): RuntimeVal {
   const array = {
     type: "array",
-    value: new Array<RuntimeVal>(),
+    value: [] as RuntimeVal[],
   } satisfies ArrayVal
 
   for (const { value } of arr.items) {
