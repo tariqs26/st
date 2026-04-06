@@ -4,7 +4,6 @@ async function run() {
   const interpreter = new Interpreter()
 
   const filePath = process.argv.slice(2)[0]
-
   if (!filePath) throw new Error("Error: missing file argument")
 
   if (!filePath.endsWith(".st"))

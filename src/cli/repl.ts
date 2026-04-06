@@ -8,9 +8,7 @@ function repl() {
 
   while (true) {
     const input = prompt("\n>")
-
     if (!input || input.includes("exit")) return
-
     console.log()
 
     try {
