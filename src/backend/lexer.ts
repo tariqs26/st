@@ -15,7 +15,7 @@ const markInvalidToken = (ch: string, pos: number) => {
 export class Lexer {
   private pos = 0
   private ln = 1
-  private tokens = new Array<Token>()
+  private tokens: Token[] = []
 
   private token(value: string, type: TokenType): Token {
     return {
@@ -157,6 +157,6 @@ export class Lexer {
   reset() {
     this.pos = 0
     this.ln = 1
-    this.tokens = new Array<Token>()
+    this.tokens.length = 0
   }
 }
