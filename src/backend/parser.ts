@@ -40,24 +40,24 @@ export class Parser {
     const tk = this.curr().type
 
     switch (tk) {
-      case TOKENS.Ident:
+      case TOKENS.IDENT:
         return { kind: "Identifier", symbol: this.next().value }
-      case TOKENS.Number:
+      case TOKENS.NUMBER:
         return { kind: "NumericLiteral", value: +this.next().value }
-      case TOKENS.True:
-      case TOKENS.False:
+      case TOKENS.TRUE:
+      case TOKENS.FALSE:
         return { kind: "BooleanLiteral", value: this.next().value === "true" }
-      case TOKENS.Null: {
+      case TOKENS.NULL: {
         this.next()
         return { kind: "NullLiteral", value: null }
       }
-      case TOKENS.String:
+      case TOKENS.STRING:
         return { kind: "StringLiteral", value: this.next().value }
-      case TOKENS.OpenParen: {
+      case TOKENS.OPEN_PAREN: {
         this.next()
         const value = this.parseExpr()
         this.expect(
-          TOKENS.CloseParen,
+          TOKENS.CLOSE_PAREN,
           new SyntaxError("missing closing parenthesis")
         )
 
@@ -72,8 +72,8 @@ export class Parser {
     let object = this.parsePrimaryExpr()
 
     while (
-      this.curr().type === TOKENS.Dot ||
-      this.curr().type === TOKENS.OpenBracket
+      this.curr().type === TOKENS.DOT ||
+      this.curr().type === TOKENS.OPEN_BRACKET
     ) {
       const operator = this.next()
 
@@ -81,7 +81,7 @@ export class Parser {
       let computed: boolean
 
       // non-computed foo.bar
-      if (operator.type === TOKENS.Dot) {
+      if (operator.type === TOKENS.DOT) {
         computed = false
         // get ident
         property = this.parsePrimaryExpr()
@@ -92,7 +92,7 @@ export class Parser {
         // allow obj[computedValue]
         computed = true
         property = this.parseExpr()
-        this.expect(TOKENS.CloseBracket, new SyntaxError("missing ]"))
+        this.expect(TOKENS.CLOSE_BRACKET, new SyntaxError("missing ]"))
       }
 
       object = {
@@ -109,7 +109,8 @@ export class Parser {
   // <foo.x>()() parse left fully
   private parseCallMemberExpr() {
     const member = this.parseMemberExpr()
-    if (this.curr().type === TOKENS.OpenParen) return this.parseCallExpr(member)
+    if (this.curr().type === TOKENS.OPEN_PAREN)
+      return this.parseCallExpr(member)
 
     return member
   }
@@ -122,7 +123,7 @@ export class Parser {
     }
 
     // foo()()
-    if (this.curr().type === TOKENS.OpenParen)
+    if (this.curr().type === TOKENS.OPEN_PAREN)
       callExpr = this.parseCallExpr(callExpr)
 
     return callExpr
@@ -132,15 +133,15 @@ export class Parser {
   private parseArgs(isDeclaration = false): Expr[] {
     const stmtType = isDeclaration ? "declaration" : "call"
     this.expect(
-      TOKENS.OpenParen,
+      TOKENS.OPEN_PAREN,
       new SyntaxError(`missing ( in function ${stmtType}`)
     )
 
     const args =
-      this.curr().type === TOKENS.CloseParen ? [] : this.parseArgsList()
+      this.curr().type === TOKENS.CLOSE_PAREN ? [] : this.parseArgsList()
 
     this.expect(
-      TOKENS.CloseParen,
+      TOKENS.CLOSE_PAREN,
       new SyntaxError(`missing ) in function ${stmtType}`)
     )
 
@@ -150,14 +151,14 @@ export class Parser {
   // foo(x= 5, v=5)
   private parseArgsList(): Expr[] {
     const args = [this.parseAssignmentExpr()]
-    while (this.curr().type === TOKENS.Comma && this.next())
+    while (this.curr().type === TOKENS.COMMA && this.next())
       args.push(this.parseAssignmentExpr())
 
     return args
   }
 
   private parseUnaryExpr(): Expr {
-    if (this.curr().type === TOKENS.UnaryOp) {
+    if (this.curr().type === TOKENS.UNARY_OP) {
       const operator = this.next().value
       const operand = this.parseUnaryExpr()
       return { kind: "UnaryExpr", operator, operand }
@@ -269,15 +270,15 @@ export class Parser {
   }
 
   private parseArrayExpr(): Expr {
-    if (this.curr().type !== TOKENS.OpenBracket) return this.parseOrExpr()
+    if (this.curr().type !== TOKENS.OPEN_BRACKET) return this.parseOrExpr()
 
     this.next()
 
-    const items = new Array<ArrayItem>()
+    const items: ArrayItem[] = []
 
     let index = 0
 
-    while (!this.EOF && this.curr().type !== TOKENS.CloseBracket) {
+    while (!this.EOF && this.curr().type !== TOKENS.CLOSE_BRACKET) {
       const value = this.parseExpr()
 
       if (this.EOF) throw new SyntaxError("missing ]")
@@ -288,60 +289,60 @@ export class Parser {
         index: index++,
       })
 
-      if (this.curr().type === TOKENS.Comma) this.next()
+      if (this.curr().type === TOKENS.COMMA) this.next()
     }
 
-    this.expect(TOKENS.CloseBracket, new SyntaxError("missing ]"))
+    this.expect(TOKENS.CLOSE_BRACKET, new SyntaxError("missing ]"))
 
     return { kind: "ArrayLiteral", items }
   }
 
   private parseObjectExpr(): Expr {
-    if (this.curr().type !== TOKENS.OpenBrace) return this.parseArrayExpr()
+    if (this.curr().type !== TOKENS.OPEN_BRACE) return this.parseArrayExpr()
 
     this.next()
 
-    const properties = new Array<Property>()
+    const properties: Property[] = []
 
-    while (!this.EOF && this.curr().type !== TOKENS.CloseBrace) {
+    while (!this.EOF && this.curr().type !== TOKENS.CLOSE_BRACE) {
       // {key: value, key2: value2}
       // {key,...}
 
       const key = this.expect(
-        TOKENS.Ident,
+        TOKENS.IDENT,
         new SyntaxError("missing key in object literal")
       ).value
 
       // { key,
-      if (this.curr().type === TOKENS.Comma) {
+      if (this.curr().type === TOKENS.COMMA) {
         this.next()
         properties.push({ key })
         continue
       }
 
       // { key }
-      if (this.curr().type === TOKENS.CloseBrace) {
+      if (this.curr().type === TOKENS.CLOSE_BRACE) {
         properties.push({ key })
         continue
       }
 
       // {key: val,}
-      this.expect(TOKENS.Colon, new SyntaxError("missing : in object literal"))
+      this.expect(TOKENS.COLON, new SyntaxError("missing : in object literal"))
 
       const value = this.parseExpr()
 
       properties.push({ key, value })
 
-      if (this.curr().type !== TOKENS.CloseBrace) {
+      if (this.curr().type !== TOKENS.CLOSE_BRACE) {
         this.expect(
-          TOKENS.Comma,
+          TOKENS.COMMA,
           new SyntaxError("missing , in object literal")
         )
       }
     }
 
     this.expect(
-      TOKENS.CloseBrace,
+      TOKENS.CLOSE_BRACE,
       new SyntaxError("missing } in object literal")
     )
 
@@ -351,7 +352,7 @@ export class Parser {
   private parseAssignmentExpr(): Expr {
     const left = this.parseObjectExpr()
 
-    if (this.curr().type === TOKENS.Equals) {
+    if (this.curr().type === TOKENS.EQUALS) {
       this.next()
       const value = this.parseAssignmentExpr()
       return { kind: "AssignmentExpr", value, assignee: left }
@@ -365,19 +366,19 @@ export class Parser {
   }
 
   private parseBody(): Stmt[] {
-    const body = new Array<Stmt>()
+    const body: Stmt[] = []
 
-    while (!this.EOF && this.curr().type !== TOKENS.CloseBrace)
+    while (!this.EOF && this.curr().type !== TOKENS.CLOSE_BRACE)
       body.push(this.parseStmt())
 
     return body
   }
 
   private parseVarDeclaration(): VarDeclaration {
-    const constant = this.next().type === TOKENS.Const
+    const constant = this.next().type === TOKENS.CONST
 
     const ident = this.expect(
-      TOKENS.Ident,
+      TOKENS.IDENT,
       new SyntaxError("missing identifier in variable declaration")
     ).value
 
@@ -388,7 +389,7 @@ export class Parser {
     }
 
     this.expect(
-      TOKENS.Equals,
+      TOKENS.EQUALS,
       new SyntaxError("missing = in variable initialization")
     )
 
@@ -410,7 +411,7 @@ export class Parser {
 
     const condition = this.parseExpr()
 
-    this.expect(TOKENS.OpenBrace, new SyntaxError("missing {"))
+    this.expect(TOKENS.OPEN_BRACE, new SyntaxError("missing {"))
 
     const declaration: Stmt = {
       kind: "ControlFlow",
@@ -418,17 +419,17 @@ export class Parser {
       body: this.parseBody(),
     }
 
-    this.expect(TOKENS.CloseBrace, new SyntaxError("missing }"))
+    this.expect(TOKENS.CLOSE_BRACE, new SyntaxError("missing }"))
 
-    if (this.EOF || this.curr().type !== TOKENS.Else) return declaration
+    if (this.EOF || this.curr().type !== TOKENS.ELSE) return declaration
 
     this.next()
 
-    this.expect(TOKENS.OpenBrace, new SyntaxError("missing {"))
+    this.expect(TOKENS.OPEN_BRACE, new SyntaxError("missing {"))
 
     declaration.elseBody = this.parseBody()
 
-    this.expect(TOKENS.CloseBrace, new SyntaxError("missing }"))
+    this.expect(TOKENS.CLOSE_BRACE, new SyntaxError("missing }"))
 
     return declaration
   }
@@ -443,7 +444,7 @@ export class Parser {
     if (this.EOF) throw new SyntaxError("missing condition")
 
     this.expect(
-      TOKENS.SemiColon,
+      TOKENS.SEMI_COLON,
       new SyntaxError("missing ; after for loop init")
     )
 
@@ -452,13 +453,13 @@ export class Parser {
     if (this.EOF) throw new SyntaxError("missing update")
 
     this.expect(
-      TOKENS.SemiColon,
+      TOKENS.SEMI_COLON,
       new SyntaxError("missing ; after for loop condition")
     )
 
     const update = this.parseExpr()
 
-    this.expect(TOKENS.OpenBrace, new SyntaxError("missing {"))
+    this.expect(TOKENS.OPEN_BRACE, new SyntaxError("missing {"))
 
     const declaration: Stmt = {
       kind: "ForLoop",
@@ -468,7 +469,7 @@ export class Parser {
       body: this.parseBody(),
     }
 
-    this.expect(TOKENS.CloseBrace, new SyntaxError("missing }"))
+    this.expect(TOKENS.CLOSE_BRACE, new SyntaxError("missing }"))
 
     return declaration
   }
@@ -479,7 +480,7 @@ export class Parser {
     if (this.EOF) throw new SyntaxError("missing condition")
     const condition = this.parseExpr()
 
-    this.expect(TOKENS.OpenBrace, new SyntaxError("missing {"))
+    this.expect(TOKENS.OPEN_BRACE, new SyntaxError("missing {"))
 
     const declaration: Stmt = {
       kind: "WhileLoop",
@@ -487,7 +488,7 @@ export class Parser {
       body: this.parseBody(),
     }
 
-    this.expect(TOKENS.CloseBrace, new SyntaxError("missing }"))
+    this.expect(TOKENS.CLOSE_BRACE, new SyntaxError("missing }"))
 
     return declaration
   }
@@ -495,12 +496,12 @@ export class Parser {
   private parseFunctionDeclaration() {
     this.next()
     const name = this.expect(
-      TOKENS.Ident,
+      TOKENS.IDENT,
       new SyntaxError("missing function name")
     ).value
 
     const params = this.parseArgs(true)
-    const parameters = new Array<FunctionParameter>()
+    const parameters: FunctionParameter[] = []
 
     for (const param of params) {
       if (param.kind === "AssignmentExpr" || param.kind === "Identifier")
@@ -531,7 +532,7 @@ export class Parser {
         )
     }
 
-    this.expect(TOKENS.OpenBrace, new SyntaxError("missing {"))
+    this.expect(TOKENS.OPEN_BRACE, new SyntaxError("missing {"))
 
     const declaration: Stmt = {
       kind: "FunctionDeclaration",
@@ -540,7 +541,7 @@ export class Parser {
       body: this.parseBody(),
     }
 
-    this.expect(TOKENS.CloseBrace, new SyntaxError("missing }"))
+    this.expect(TOKENS.CLOSE_BRACE, new SyntaxError("missing }"))
 
     return declaration
   }
@@ -560,23 +561,23 @@ export class Parser {
 
   private parseStmt(): Stmt {
     switch (this.curr().type) {
-      case TOKENS.Let:
-      case TOKENS.Const:
+      case TOKENS.LET:
+      case TOKENS.CONST:
         return this.parseVarDeclaration()
-      case TOKENS.If:
+      case TOKENS.IF:
         return this.parseControlFlow()
-      case TOKENS.For:
+      case TOKENS.FOR:
         return this.parseForLoop()
-      case TOKENS.While:
+      case TOKENS.WHILE:
         return this.parseWhileLoop()
-      case TOKENS.Break:
-      case TOKENS.Continue:
-        return this.next().type === TOKENS.Break
+      case TOKENS.BREAK:
+      case TOKENS.CONTINUE:
+        return this.next().type === TOKENS.BREAK
           ? { kind: "Break" }
           : { kind: "Continue" }
-      case TOKENS.Function:
+      case TOKENS.FUNCTION:
         return this.parseFunctionDeclaration()
-      case TOKENS.Return:
+      case TOKENS.RETURN:
         return this.parseReturn()
     }
 

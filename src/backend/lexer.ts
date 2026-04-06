@@ -42,7 +42,7 @@ export class Lexer {
       num += src[this.pos++]
     }
 
-    this.tokens.push(this.token(num, TOKENS.Number))
+    this.tokens.push(this.token(num, TOKENS.NUMBER))
   }
 
   private identifier(src: string) {
@@ -51,7 +51,7 @@ export class Lexer {
     while (this.pos < src.length && validator.identifier(src[this.pos]))
       ident += src[this.pos++]
 
-    this.tokens.push(this.token(ident, KEYWORDS.get(ident) ?? TOKENS.Ident))
+    this.tokens.push(this.token(ident, KEYWORDS.get(ident) ?? TOKENS.IDENT))
   }
 
   private string(src: string) {
@@ -63,7 +63,7 @@ export class Lexer {
     if (src[this.pos] === undefined || src[this.pos] !== '"')
       throw new SyntaxError("unterminated string literal")
 
-    this.tokens.push(this.token(str, TOKENS.String))
+    this.tokens.push(this.token(str, TOKENS.STRING))
   }
 
   tokenize(src: string): Token[] {
@@ -83,14 +83,14 @@ export class Lexer {
             continue
           }
         }
-        this.tokens.push(this.token(ch, TOKENS.Dot))
+        this.tokens.push(this.token(ch, TOKENS.DOT))
       } else if (ch === "=") {
         // check for equality or assignment
         this.pos++
         if (this.pos < src.length && src[this.pos] === ch)
-          this.tokens.push(this.token(ch.repeat(2), TOKENS.BinaryOp))
+          this.tokens.push(this.token(ch.repeat(2), TOKENS.BINARY_OP))
         else {
-          this.tokens.push(this.token(ch, TOKENS.Equals))
+          this.tokens.push(this.token(ch, TOKENS.EQUALS))
           continue
         }
       } else if (["+", "-"].includes(ch)) {
@@ -99,35 +99,35 @@ export class Lexer {
           this.pos < src.length &&
           !validator.isWhitespace(src[this.pos + 1])
         ) {
-          this.tokens.push(this.token(ch, TOKENS.UnaryOp))
-        } else this.tokens.push(this.token(ch, TOKENS.BinaryOp))
+          this.tokens.push(this.token(ch, TOKENS.UNARY_OP))
+        } else this.tokens.push(this.token(ch, TOKENS.BINARY_OP))
       } else if (ch === "!") {
         // check for != or !
         if (this.pos < src.length && src[this.pos + 1] === "=") {
           this.pos++
-          this.tokens.push(this.token("!=", TOKENS.BinaryOp))
+          this.tokens.push(this.token("!=", TOKENS.BINARY_OP))
         } else if (
           this.pos < src.length &&
           !validator.isWhitespace(src[this.pos + 1])
         )
-          this.tokens.push(this.token("!", TOKENS.UnaryOp))
+          this.tokens.push(this.token("!", TOKENS.UNARY_OP))
         else markInvalidToken(ch, this.pos)
       } else if ([">", "<"].includes(ch)) {
         // check for comparison operators
         this.pos++
         let op = ch
         if (this.pos < src.length && src[this.pos] === "=") op += "="
-        this.tokens.push(this.token(op, TOKENS.BinaryOp))
+        this.tokens.push(this.token(op, TOKENS.BINARY_OP))
       } else if (ch === "/") {
         this.pos++
         let op = ch
         if (this.pos < src.length && src[this.pos] === ch) op += ch
-        this.tokens.push(this.token(op, TOKENS.BinaryOp))
+        this.tokens.push(this.token(op, TOKENS.BINARY_OP))
       } else if (["|", "&"].includes(ch)) {
         // check for bitwise (|, &) or logical (||, &&) operators
         this.pos++
         if (this.pos < src.length && src[this.pos] === ch)
-          this.tokens.push(this.token(ch.repeat(2), TOKENS.BinaryOp))
+          this.tokens.push(this.token(ch.repeat(2), TOKENS.BINARY_OP))
         else markInvalidToken(ch, this.pos - 1)
       } else if (validator.isDigit(ch)) {
         this.number(src)
