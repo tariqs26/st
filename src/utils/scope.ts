@@ -5,6 +5,7 @@ import {
   mkNativeFn,
   mkNull,
   mkNumber,
+  mkObject,
   mkString,
   mkType,
 } from "@/runtime/values"
@@ -55,6 +56,48 @@ export function createGlobalScope() {
   })
 
   scope.declareVar(
+    "Math",
+    mkObject(
+      new Map([
+        [
+          "random",
+          mkNativeFn((args: RuntimeVal[]) => {
+            validateArgCount(args, 0, 2)
+            switch (args.length) {
+              case 2: {
+                if (args[0].type !== "number" || args[1].type !== "number")
+                  throw new TypeError("arguments must be numbers")
+                const min = args[0].value
+                const max = args[1].value
+                return mkNumber(
+                  Math.floor(Math.random() * (max - min + 1)) + min
+                )
+              }
+              default:
+                return mkNumber(Math.random())
+            }
+          }),
+        ],
+        [
+          "pow",
+          mkNativeFn((args: RuntimeVal[]) => {
+            if (args.length !== 2)
+              throw new SyntaxError(
+                `expected 2 arguments received ${args.length}`
+              )
+
+            if (args[0].type !== "number" || args[1].type !== "number")
+              throw new TypeError("arguments must be numbers")
+
+            return mkNumber(args[0].value ** args[1].value)
+          }),
+        ],
+      ])
+    ),
+    true
+  )
+
+  scope.declareVar(
     "print",
     mkNativeFn((args: RuntimeVal[]) => {
       console.log(...args.map(formatRuntimeVal))
@@ -89,39 +132,6 @@ export function createGlobalScope() {
         throw new SyntaxError(`expected 1 argument received ${args.length}`)
       }
       return mkType(args[0].type)
-    }),
-    true
-  )
-
-  scope.declareVar(
-    "random",
-    mkNativeFn((args: RuntimeVal[]) => {
-      validateArgCount(args, 0, 2)
-      switch (args.length) {
-        case 2: {
-          if (args[0].type !== "number" || args[1].type !== "number")
-            throw new TypeError("arguments must be numbers")
-          const min = args[0].value
-          const max = args[1].value
-          return mkNumber(Math.floor(Math.random() * (max - min + 1)) + min)
-        }
-        default:
-          return mkNumber(Math.random())
-      }
-    }),
-    true
-  )
-
-  scope.declareVar(
-    "pow",
-    mkNativeFn((args: RuntimeVal[]) => {
-      if (args.length !== 2)
-        throw new SyntaxError(`expected 2 arguments received ${args.length}`)
-
-      if (args[0].type !== "number" || args[1].type !== "number")
-        throw new TypeError("arguments must be numbers")
-
-      return mkNumber(args[0].value ** args[1].value)
     }),
     true
   )

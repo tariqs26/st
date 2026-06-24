@@ -162,8 +162,8 @@ fn fib(n) {
 ```rs
 print("Hello, World!")
 const name = input("What is your name?")
-random()
-random(1, 10)
+Math.random()
+Math.random(1, 10)
 typeof(3)
 ```
 

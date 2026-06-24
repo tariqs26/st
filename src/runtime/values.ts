@@ -59,6 +59,13 @@ export type ObjectVal = {
   value: Map<string, RuntimeVal>
 }
 
+export function mkObject(obj: Map<string, RuntimeVal>): RuntimeVal {
+  return {
+    type: "object",
+    value: obj,
+  }
+}
+
 export type FunctionCall = (args: RuntimeVal[], scope: Scope) => RuntimeVal
 
 export type FunctionVal = {
